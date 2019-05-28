@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="button1">TODOS LOS POKEMON</string>
+    <string name="button2">1ª GENERACIÓN</string>
+    <string name="button3">2ª GENERACIÓN</string>
+    <string name="button4">3ª GENERACIÓN</string>
+    <string name="button5">4ª GENERACIÓN</string>
+    <string name="button6">5ª GENERACIÓN</string>
+    <string name="button7">6ª GENERACIÓN</string>
+    <string name="button8">7ª GENERACIÓN</string>
+    <string name="button9">MEGAS Y FORMAS</string>
+</resources>
