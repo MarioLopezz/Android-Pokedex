@@ -55,6 +55,11 @@ public class PokemonListAdapter extends RecyclerView.Adapter<PokemonListAdapter.
 
     }
 
+    public void filterList(ArrayList<Pokemon> filterdList) {
+        dataset=filterdList;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends  RecyclerView.ViewHolder{
         private ImageView pokemonSprite;
         private TextView pokemonName;

@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.GridLayout;
 
 import com.example.conexionapis.api.PokeapiService;
@@ -33,7 +36,11 @@ public class PokemonList extends AppCompatActivity {
     private int offset;
     private int limit;
 
+    private EditText searchEditText;
+    private ArrayList<Pokemon> pokemonList;
     private boolean load;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,7 @@ public class PokemonList extends AppCompatActivity {
         recyclerView.setAdapter(pokemonListAdapter);
         final GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
         recyclerView.setLayoutManager(layoutManager);
+
         /*recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -77,7 +85,26 @@ public class PokemonList extends AppCompatActivity {
                 .build();
         load=true;
         getData(offset, limit);
+
+        searchEditText=findViewById(R.id.searchEditText);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
     }
+
 
     private void getData(int offset, int limit){
         PokeapiService service = retrofit.create(PokeapiService.class);
@@ -90,7 +117,7 @@ public class PokemonList extends AppCompatActivity {
                 load=true;
                 if(response.isSuccessful()){
                     Response responseBody = response.body();
-                    ArrayList<Pokemon> pokemonList= responseBody.getResults();
+                    pokemonList= responseBody.getResults();
 
                     pokemonListAdapter.addPokemonList(pokemonList);
 
@@ -105,6 +132,18 @@ public class PokemonList extends AppCompatActivity {
                 Log.e(TAG, " onFailure : "+ t.getMessage());
             }
         });
+    }
+
+    private void filter(String text){
+        ArrayList<Pokemon> filterdList=new ArrayList<>();
+
+        for (Pokemon p : pokemonList){
+            if(p.getName().toLowerCase().contains(text.toLowerCase())){
+                filterdList.add(p);
+            }
+        }
+        pokemonListAdapter.filterList(filterdList);
+
     }
 
 }
